@@ -21,6 +21,10 @@ class transaction_output:
     def to_dict(self):
         output_dict = {"value": self.value, "pubkey": self.pubkey}
         return output_dict
+    
+    def toString(self):
+        outputList = [str(self.value), str(self.pubkey)]
+        return ''.join(outputList)
 
 class transaction_input:
     def __init__(self, number = None, output : transaction_output = None, input_dict = None):
@@ -40,17 +44,24 @@ class transaction_input:
         pubkey = str(self.output.pubkey)
         output_dict = {"number": number, "value": value, "pubkey": pubkey}
         return output_dict
-    
+
+    def toString(self):
+        outputList = [str(self.number), str(self.output.value), str(self.output.pubkey)]
+        return ''.join(outputList)
+
 class Transaction: 
-    def __init__(self, tx_number = None, input_list : List[transaction_input] = None, output_list : List[transaction_output] = None, sig = None, dict_obj = None):
+    def __init__(self, tx_number = None, input_list : List[transaction_input] = None, output_list : List[transaction_output] = None, sig = None, dict_obj = None, genesis = None):
         # check if there is data in the object 
         if dict_obj:
             self._get_transaction(dict_obj)
             return
-        self.tx_number = tx_number
         self.input_list = input_list
         self.output_list = output_list
         self.sig = sig 
+        if(genesis == 1):
+            self.tx_number = 1
+        else: 
+            self.tx_number = self.hashed_number()
     
     def _get_transaction(self, dict_obj):
         self.tx_number = dict_obj['number']
@@ -68,24 +79,24 @@ class Transaction:
             self.output_list.append(output_transaction)
 
     # find a better way for this function
-    # def hashed_number(self):
-    #     # get all the inputs and the outputs and the sig then hash it to get the number for the transaction
-    #     number = []
-    #     for input_tx in self.input_list:
-    #         number.append(input_tx.convert())
-    #     for output_tx in self.output_list:
-    #         number.append(output_tx.convert())
-    #     number.append(self.sig)
-    #     return sha256(''.join(number).encode('utf-8')).hexdigest()
+    def hashed_number(self):
+        # get all the inputs and the outputs and the sig then hash it to get the number for the transaction
+        number = []
+        for input_tx in self.input_list:
+            number.append(input_tx.toString())
+        for output_tx in self.output_list:
+            number.append(output_tx.toString())
+        number.append(self.sig)
+        return sha256(''.join(number).encode()).hexdigest()
     
-    # def toString(self):
-    #     list_value = [str(self.tx_number)]
-    #     for input_tx in self.input_list:
-    #         list_value.append(input_tx.toString())
-    #     for output_tx in self.output_list:
-    #         list_value.append(output_tx.toString())
-    #     list_value.append(self.sig)
-    #     return ''.join(list_value)
+    def toString(self):
+        list_value = [str(self.tx_number)]
+        for input_tx in self.input_list:
+            list_value.append(input_tx.toString())
+        for output_tx in self.output_list:
+            list_value.append(output_tx.toString())
+        list_value.append(self.sig)
+        return ''.join(list_value)
     
     # outputs the transaction in a dict object
     def to_dict(self):
