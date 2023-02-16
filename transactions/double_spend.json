@@ -1,0 +1,44 @@
+[
+    {
+        "number": "dbccdaeb5714c2a64c2880af2e0869f2d4a6d1213ea7369d8c75276ac06db4f2",
+        "input": [
+            {
+                "number": "1",
+                "value": "100",
+                "pubkey": "A4zpkUXYmU65xt0OuPoaXXZ+h1zmyqM8b4JuDAQzvAc="
+            }
+        ],
+        "output": [
+            {
+                "value": 50,
+                "pubkey": "A4zpkUXYmU65xt0OuPoaXXZ+h1zmyqM8b4JuDAQzvAc="
+            },
+            {
+                "value": 50,
+                "pubkey": "C0lPiqYs/JnTgNn35QMTZMa6Y7t6tBDY3W/D7nlNQco="
+            }
+        ],
+        "sig": "oSlsmEOFHj7GB4VmK2KT6VKRvIGspwKs9fGpsiAHmOd5jPvAGjYeZ/2mZOHAKX1yMuwluWQHbNOB0gcdI6b4Alt7InZhbHVlIjogNTAsICJwdWJrZXkiOiAiQTR6cGtVWFltVTY1eHQwT3VQb2FYWForaDF6bXlxTThiNEp1REFRenZBYz0ifSwgeyJ2YWx1ZSI6IDUwLCAicHVia2V5IjogIkMwbFBpcVlzL0puVGdObjM1UU1UWk1hNlk3dDZ0QkRZM1cvRDdubE5RY289In1d"
+    },
+    {
+        "number": "27f899c7e4f67cc2b0e4e531d683333704a82cec283c5b62c19e4097070f0291",
+        "input": [
+            {
+                "number": "1",
+                "value": "100",
+                "pubkey": "A4zpkUXYmU65xt0OuPoaXXZ+h1zmyqM8b4JuDAQzvAc="
+            }
+        ],
+        "output": [
+            {
+                "value": 50,
+                "pubkey": "Ap/Ho4jL9n9YMfHzxs436F5sbx2INDlVovCZHisYWfw="
+            },
+            {
+                "value": 50,
+                "pubkey": "bYqXQ43r/ezX8nD0eZh4MEXOdN17PSGNxMcuBiuwD7k="
+            }
+        ],
+        "sig": "wQePSAZQNVh1ON12lpe/dG+w2jPMJD+yh8b4YYYjwW3rYItNXwtZ2EytbhDjBAYbU8JCRNFkijJ96u8YM9xDAlt7InZhbHVlIjogNTAsICJwdWJrZXkiOiAiQXAvSG80akw5bjlZTWZIenhzNDM2RjVzYngySU5EbFZvdkNaSGlzWVdmdz0ifSwgeyJ2YWx1ZSI6IDUwLCAicHVia2V5IjogImJZcVhRNDNyL2V6WDhuRDBlWmg0TUVYT2ROMTdQU0dOeE1jdUJpdXdEN2s9In1d"
+    }
+]
