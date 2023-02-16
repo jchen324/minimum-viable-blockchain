@@ -1,0 +1,44 @@
+[
+    {
+        "number": "06a4ee46836a8d4651971eb832cbad44fc258e360e94aaee94084a1461b83f2d",
+        "input": [
+            {
+                "number": "1",
+                "value": "100",
+                "pubkey": "yDEVOVp/7vwSpL0cefFvPigr5+PN9E1g/w8hXWsMhHM="
+            }
+        ],
+        "output": [
+            {
+                "value": 50,
+                "pubkey": "yDEVOVp/7vwSpL0cefFvPigr5+PN9E1g/w8hXWsMhHM="
+            },
+            {
+                "value": 50,
+                "pubkey": "3FGbexgNEbp9XhOXORwcpdixfIk8jq3CSp7UfB7MmDI="
+            }
+        ],
+        "sig": "j2/2aglX2dvfyg7hOuKuqm1aEraC68M7U6zf8YgFoxLLPWJBWtHftxLLVU+M7n45NXJYQAyWSt/WUuh/tURlClt7Im51bWJlciI6ICIxIiwgInZhbHVlIjogIjEwMCIsICJwdWJrZXkiOiAieURFVk9WcC83dndTcEwwY2VmRnZQaWdyNStQTjlFMWcvdzhoWFdzTWhITT0ifV1beyJ2YWx1ZSI6IDUwLCAicHVia2V5IjogInlERVZPVnAvN3Z3U3BMMGNlZkZ2UGlncjUrUE45RTFnL3c4aFhXc01oSE09In0sIHsidmFsdWUiOiA1MCwgInB1YmtleSI6ICIzRkdiZXhnTkVicDlYaE9YT1J3Y3BkaXhmSWs4anEzQ1NwN1VmQjdNbURJPSJ9XQ=="
+    },
+    {
+        "number": "325a3d6b5248a37e4f9b8338dae1a9a6ce1cfe1a9627b7a104eb6af92d0d1281",
+        "input": [
+            {
+                "number": "1",
+                "value": "72",
+                "pubkey": "Ce/gZHH9grhrDRTGqbhy1xGj/eazedaqtVfFKzqWP3I="
+            }
+        ],
+        "output": [
+            {
+                "value": 40,
+                "pubkey": "Ce/gZHH9grhrDRTGqbhy1xGj/eazedaqtVfFKzqWP3I="
+            },
+            {
+                "value": 52,
+                "pubkey": "YhLSHfo1QxQMH0CsIn5PF9YKK/pNrVGbURPi3cPRFP0="
+            }
+        ],
+        "sig": "XvapoCLrjEKcg801AKYKRqDGERsqlDmpdj7Ptv9rJN429pmGmDAOh6sMXoRPV5gBLVfVYtUzPPQ9TN8qyReNDFt7Im51bWJlciI6ICIxIiwgInZhbHVlIjogIjcyIiwgInB1YmtleSI6ICJDZS9nWkhIOWdyaHJEUlRHcWJoeTF4R2ovZWF6ZWRhcXRWZkZLenFXUDNJPSJ9XVt7InZhbHVlIjogNDAsICJwdWJrZXkiOiAiQ2UvZ1pISDlncmhyRFJUR3FiaHkxeEdqL2VhemVkYXF0VmZGS3pxV1AzST0ifSwgeyJ2YWx1ZSI6IDUyLCAicHVia2V5IjogIlloTFNIZm8xUXhRTUgwQ3NJbjVQRjlZS0svcE5yVkdiVVJQaTNjUFJGUDA9In1d"
+    }
+]
