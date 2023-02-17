@@ -113,7 +113,10 @@ class Node:
             prevHashing = prevBlock.currBlock.pow
             nonce = 0 # TODO
             pow = sha256((str(tx.to_dict()) + str(prevHashing) + str(nonce)).encode()).hexdigest()
-            newBlock = Block(tx, prevHashing, nonce, pow)
+            while int(pow, 16) > self.difficulty:
+                nonce += 1
+                pow = sha256((str(tx.to_dict()) + str(prevHashing) + str(nonce)).encode()).hexdigest()
+            newBlock = Block(tx, prevHashing, str(nonce), pow)
             newLinkedBlock = LinkedBlock(prevBlock, newBlock, prevBlock.height + 1)
             self.blockchain.add_block(newLinkedBlock)
         else:
