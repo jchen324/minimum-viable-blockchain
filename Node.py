@@ -175,6 +175,7 @@ class Node:
 node = Node()
 node.output_all_blocks()
 
+
 def read_tx(filename):
     txs = []
     with open(f"./transactions/{filename}.json") as f:

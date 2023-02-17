@@ -11,7 +11,7 @@ class Driver:
     def __init__(self):
         self.nodes_list = []
         # list of dictionaries that can be iterated through
-        self.unverified_Transactions : Transaction = []
+        self.global_unverified_Transactions : Transaction = []
         self.genesisBlock = Blockchain.createGenesisBlock(Blockchain)
         self.createThread(8)
         self.readTxfromJson()
@@ -27,10 +27,24 @@ class Driver:
             node.other_nodes += self.nodes_list
 
     def mining(self, node):
-        
-        
-
-        node.writeToFile()
+        while True:
+            node.add_broadcasted_block()
+            sleep(1)
+            for transaction in self.global_unverified_Transactions:
+                if transaction in node.valid_tx:
+                    continue
+                node.unverified_tx_pool.append(transaction)
+            for transaction in node.unverified_tx_pool:
+                node.mine_block(transaction)
+                node.valid_tx.append(transaction)
+                if node.unverified_tx_pool:
+                    node.unverified_tx_pool.remove(transaction)
+            if len(node.unverified_tx_pool) == 0:
+                sleep(1)
+                if len(node.unverified_tx_pool) == 0:
+                    break
+    
+        node.output_all_blocks()
 
     def readTxfromJson(self):
         with open("transactions/Verified_Tx.json") as JsonFile:
