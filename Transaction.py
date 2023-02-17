@@ -30,7 +30,7 @@ class transaction_input:
             self.number = input_dict['number']
             # get the output data from the input dictionary object
             output_obj = input_dict['output']
-            self.output = transaction_output(output_obj)
+            self.output = transaction_output(None, None, output_dict = output_obj)
             return
         self.number = number
         self.output = output
@@ -39,8 +39,8 @@ class transaction_input:
         number = str(self.number)
         value = str(self.output.value)
         pubkey = str(self.output.pubkey)
-        output_dict =  {"number": number, "output": {"value": value, "pubkey": pubkey}}
-        return output_dict
+        input_dict =  {"number": number, "output": {"value": value, "pubkey": pubkey}}
+        return input_dict
 
 
 class Transaction: 
@@ -56,6 +56,7 @@ class Transaction:
             self.tx_number = "1"
         else: 
             self.tx_number = self.hashed_number()
+            print("1st hash :" + self.tx_number)
     
     def _get_transaction(self, dict_obj):
         self.tx_number = dict_obj['number']
