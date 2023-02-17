@@ -10,7 +10,7 @@ import nacl.exceptions
 class Node:
     def __init__(self, id = None):
         self.id = id
-        self.other_nodes = []
+        self.other_nodes : List[Node] = []
         self.blockchain = Blockchain()
         self.block_queue = Queue()
         self.unverified_tx_pool : List[Transaction] = []
@@ -169,26 +169,26 @@ class Node:
         while curr:
             res = [curr.currBlock.to_dict()] + res
             curr = curr.prevBlock
-        with open("node_output.json", "w") as f:
-            json.dump(res, f)
+        with open(f"outputs/node_output{self.id}.json", "w") as f:
+            json.dump(res, f, indent=4)
 
-node = Node()
-node.output_all_blocks()
+# node = Node(100)
+# node.output_all_blocks()
 
 
-def read_tx(filename):
-    txs = []
-    with open(f"./transactions/{filename}.json") as f:
-        txs = json.load(f)
-    return txs
+# def read_tx(filename):
+#     txs = []
+#     with open(f"./transactions/{filename}.json") as f:
+#         txs = json.load(f)
+#     return txs
         
-txs = read_tx("Verified_Tx")
-for tx in txs:
-    tx_obj = Transaction(dict_obj=tx)
+# txs = read_tx("Verified_Tx")
+# for tx in txs:
+#     tx_obj = Transaction(dict_obj=tx)
    
-    node.mine_block(tx_obj)
+#     node.mine_block(tx_obj)
 
-node.output_all_blocks()
+# node.output_all_blocks()
 
 
 
