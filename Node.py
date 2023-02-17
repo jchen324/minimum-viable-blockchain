@@ -102,6 +102,7 @@ class Node:
             print("check 3 failed")
         return (input_sum == output_sum)
 
+
     def check_valid_tx(self, tx: Transaction):
         return self._tx_check_not_already_exist(tx) and self._tx_check_hash_correct(tx) \
             and self._tx_check_input_correct(tx) and self._tx_check_input_output_sum_correct(tx)
@@ -119,9 +120,49 @@ class Node:
             newBlock = Block(tx, prevHashing, str(nonce), pow)
             newLinkedBlock = LinkedBlock(prevBlock, newBlock, prevBlock.height + 1)
             self.blockchain.add_block(newLinkedBlock)
+            self.broadcast_block(newBlock)
         else:
             print(f"Mining block: transaction not valid for transaction number {tx.tx_number}")
     
+    def _verify_block_pow(self, block: Block):
+        if int(block.pow, 16) > self.difficulty:
+            print(f"block {block.pow} pow greater than difficulty")
+            return False
+        
+        if (sha256((str(block.tx.to_dict()) + str(block.prev) + str(block.nonce)).encode()).hexdigest() != block.pow):
+            print(f"block {block.pow} pow doesn't match")
+            return False
+        return True
+
+
+    def add_broadcasted_block(self):
+        if self.block_queue.empty():
+            return
+        
+        while not self.block_queue.empty():
+            newBlock = self.block_queue.get()
+            if not (self._verify_block_pow(newBlock) and self.check_valid_tx(newBlock.tx)):
+                continue
+                
+            targetBlock = None
+            for linkedBlock in self.blockchain.blockchain:
+                if linkedBlock.currBlock.pow == newBlock.prev:
+                    targetBlock = linkedBlock
+                    break
+            if not targetBlock:
+                print(f"The prev hash of {newBlock.prev} cannot be found on blockchain.")
+                continue
+                
+            newLinkedBlock = LinkedBlock(targetBlock.currBlock, newBlock, targetBlock.height + 1)
+            self.blockchain.add_block(newLinkedBlock)
+
+
+    def broadcast_block(self, block: Block):
+        for node in self.other_nodes:
+            if node != self:
+                node.block_queue.put(block)
+
+
     def output_all_blocks(self):
         res = []
         curr = self.blockchain.last_block()
