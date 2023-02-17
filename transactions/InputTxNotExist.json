@@ -1,0 +1,44 @@
+[
+    {
+        "number": "6ed145b845b7da0419134cb2381e8060de72449e95e1aa816b22ed60953a5775",
+        "input": [
+            {
+                "number": "1",
+                "value": "100",
+                "pubkey": "TOylX6fidSQgGn6XxWsTnX3Ga2n2VGaBZ9AQOQY3Hyg="
+            }
+        ],
+        "output": [
+            {
+                "value": "50",
+                "pubkey": "TOylX6fidSQgGn6XxWsTnX3Ga2n2VGaBZ9AQOQY3Hyg="
+            },
+            {
+                "value": "50",
+                "pubkey": "lbBx+iUV/PcG/+83tod4czlZ+tUtBEbbURjREpQc/lk="
+            }
+        ],
+        "sig": "jCUq8o4K6TgZjyOuNrvj+/7MWz0eRKFe4VzeFfEWHHNcc3AtZRoOc/0/RXwLBo8xju+zKFPVK7BpDrqObfI4Dlt7Im51bWJlciI6ICIxIiwgInZhbHVlIjogIjEwMCIsICJwdWJrZXkiOiAiVE95bFg2ZmlkU1FnR242WHhXc1RuWDNHYTJuMlZHYUJaOUFRT1FZM0h5Zz0ifV1beyJ2YWx1ZSI6ICI1MCIsICJwdWJrZXkiOiAiVE95bFg2ZmlkU1FnR242WHhXc1RuWDNHYTJuMlZHYUJaOUFRT1FZM0h5Zz0ifSwgeyJ2YWx1ZSI6ICI1MCIsICJwdWJrZXkiOiAibGJCeCtpVVYvUGNHLys4M3RvZDRjemxaK3RVdEJFYmJVUmpSRXBRYy9saz0ifV0="
+    },
+    {
+        "number": "632af5ef47a90e3ab92d16e0328598d01a09acd3d5f52c743f531f01a4716ddc",
+        "input": [
+            {
+                "number": "1",
+                "value": "72",
+                "pubkey": "7vWmzveSpvuNWZ5cAtF2N5eGk61U3G/WkjaplTlE/Kw="
+            }
+        ],
+        "output": [
+            {
+                "value": "40",
+                "pubkey": "7vWmzveSpvuNWZ5cAtF2N5eGk61U3G/WkjaplTlE/Kw="
+            },
+            {
+                "value": "52",
+                "pubkey": "uSO70at3yRYUVTGhh3x4UFoFil7u/NW4lSJjTKm92gA="
+            }
+        ],
+        "sig": "gAlS9lzGAcICwxB5zFTYBmHzjHAPd5M1vLvw/3BusKeg5DI9Zfc192oh1u+XQJpGAcGv8E1JHkDVfrmqmWwgCVt7Im51bWJlciI6ICIxIiwgInZhbHVlIjogIjcyIiwgInB1YmtleSI6ICI3dldtenZlU3B2dU5XWjVjQXRGMk41ZUdrNjFVM0cvV2tqYXBsVGxFL0t3PSJ9XVt7InZhbHVlIjogIjQwIiwgInB1YmtleSI6ICI3dldtenZlU3B2dU5XWjVjQXRGMk41ZUdrNjFVM0cvV2tqYXBsVGxFL0t3PSJ9LCB7InZhbHVlIjogIjUyIiwgInB1YmtleSI6ICJ1U083MGF0M3lSWVVWVEdoaDN4NFVGb0ZpbDd1L05XNGxTSmpUS205MmdBPSJ9XQ=="
+    }
+]
