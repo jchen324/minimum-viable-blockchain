@@ -39,7 +39,7 @@ class transaction_input:
         number = str(self.number)
         value = str(self.output.value)
         pubkey = str(self.output.pubkey)
-        output_dict = {"number": number, "value": value, "pubkey": pubkey}
+        output_dict =  {"number": number, "output": {"value": value, "pubkey": pubkey}}
         return output_dict
 
 
