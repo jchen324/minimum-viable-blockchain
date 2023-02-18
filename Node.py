@@ -33,7 +33,6 @@ class Node:
         output_list = tx.to_output_list()
 
         transaction_data = json.dumps(input_list + output_list)
-
         transaction_hash = sha256(transaction_data.encode()).hexdigest()
         if transaction_hash != tx.tx_number:
             print("check 1 failed")
@@ -85,7 +84,6 @@ class Node:
                 print("diff pubkey for input's outputs")
                 return False
             
-        
         return True
         
 
@@ -105,7 +103,7 @@ class Node:
 
     def check_valid_tx(self, tx: Transaction):
         return self._tx_check_not_already_exist(tx) and self._tx_check_hash_correct(tx) \
-            and self._tx_check_input_correct(tx) and self._tx_check_input_output_sum_correct(tx)
+        and self._tx_check_input_correct(tx) and self._tx_check_input_output_sum_correct(tx)
 
 
     def mine_block(self, tx: Transaction):

@@ -50,9 +50,8 @@ class Driver:
         with open("transactions/Verified_Tx.json") as JsonFile:
             transaction_list = json.load(JsonFile)
         for tx in transaction_list:
-            sleep(random.uniform(0, 1.0))
+            sleep(random.uniform(0, 0.5))
             self.global_unverified_tx.append(Transaction(dict_obj=tx))
-
     
 if __name__ == "__main__":
     test = Driver()
