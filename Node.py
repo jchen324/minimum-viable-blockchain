@@ -63,10 +63,13 @@ class Node:
             # check if each number in the input exists as a transaction already on the blockchain 
             found = False
             curr = self.blockchain.last_block()
+            i = 0
             while curr:
+                print(str(i) + ' ' + str(curr.currBlock.tx.tx_number))
                 if input_number == curr.currBlock.tx.tx_number:
                     found = True
                     break
+                i = i + 1
                 curr = curr.prevBlock
             if (not found):
                 print("tx input does not exist")
@@ -119,8 +122,10 @@ class Node:
             newLinkedBlock = LinkedBlock(prevBlock, newBlock, prevBlock.height + 1)
             self.blockchain.add_block(newLinkedBlock)
             self.broadcast_block(newBlock)
+            return True
         else:
             print(f"Mining block: transaction not valid for transaction number {tx.tx_number}")
+            return False
     
     def _verify_block_pow(self, block: Block):
         if int(block.pow, 16) > self.difficulty:

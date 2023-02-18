@@ -7,6 +7,7 @@ import random
 from time import *
 from typing import List
 import json
+import time
 
 class Driver:
     def __init__(self):
@@ -35,8 +36,12 @@ class Driver:
                     continue
                 node.unverified_tx_pool.append(transaction)
             for transaction in node.unverified_tx_pool:
-                node.mine_block(transaction)
-                node.valid_tx.append(transaction)
+                mined = node.mine_block(transaction) 
+                # check if the previous block has been added if has then add the block to the blockchain if not try again
+                if(mined == False):
+                    node.mine_block(transaction)
+                else: 
+                    node.valid_tx.append(transaction)
                 if (node.unverified_tx_pool):
                     node.unverified_tx_pool.remove(transaction)
             if len(node.unverified_tx_pool) == 0:
