@@ -59,19 +59,22 @@ class Transaction:
             # print("1st hash :" + self.tx_number)
     
     def _get_transaction(self, dict_obj):
-        self.tx_number = dict_obj['number']
-        self.input_list = []
-        self.output_list = []
-        self.sig = dict_obj['sig']
+        try:
+            self.tx_number = dict_obj['number']
+            self.input_list = []
+            self.output_list = []
+            self.sig = dict_obj['sig']
 
-        for input_tx in dict_obj['input']:
-            input_transaction = transaction_input(input_dict=input_tx)
-            self.input_list.append(input_transaction)
-        
+            for input_tx in dict_obj['input']:
+                input_transaction = transaction_input(input_dict=input_tx)
+                self.input_list.append(input_transaction)
+            
 
-        for output_tx in dict_obj['output']:
-            output_transaction = transaction_output(output_dict=output_tx)
-            self.output_list.append(output_transaction)
+            for output_tx in dict_obj['output']:
+                output_transaction = transaction_output(output_dict=output_tx)
+                self.output_list.append(output_transaction)
+        except:
+            print("invalid transaction object")
 
 
     # return the transaction number

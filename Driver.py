@@ -50,7 +50,11 @@ class Driver:
 
     def readTxfromJson(self):
         with open("transactions/Verified_Tx.json") as JsonFile:
-            transaction_list = json.load(JsonFile)
+            try:
+                transaction_list = json.load(JsonFile)
+            except:
+                print("Invalid json file. Simulation ends.") 
+                return
         for tx in transaction_list:
             sleep(random.uniform(0, 0.5))
             self.global_unverified_tx.append(Transaction(dict_obj=tx))

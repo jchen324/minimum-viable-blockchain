@@ -145,7 +145,7 @@ class Node:
             return
         
         while not self.block_queue.empty():
-            newBlock = self.block_queue.get()
+            newBlock : Block = self.block_queue.get()
             if not (self._verify_block_pow(newBlock) and self.check_valid_tx(newBlock.tx)):
                 continue
                 
@@ -159,12 +159,16 @@ class Node:
                 continue
                 
             newLinkedBlock = LinkedBlock(targetBlock.currBlock, newBlock, targetBlock.height + 1)
-            removed_tx_list = self.blockchain.add_block(newLinkedBlock)
+            res = self.blockchain.add_block(newLinkedBlock)
             # forking occurred
-            if (removed_tx_list):
-                for tx in removed_tx_list:
+            if (res["removed"]):
+                for tx in res["removed"]:
                     self.unverified_tx_pool.append(tx)
                     self.alreadyMined.remove(tx)
+            if (res["forked"]):
+                for tx in res["forked"]:
+                    self.unverified_tx_pool.remove(tx)
+                    self.alreadyMined.append(tx)
 
 
 

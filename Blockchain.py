@@ -59,6 +59,7 @@ class Blockchain:
     # add the block's output to UTXO and remove the block's input from UTXO
     def add_block(self, block: LinkedBlock):
         removed_tx_list = []
+        forked_tx_list = []
 
         oldBlock = self.highest_block
         self.blockchain.append(block)
@@ -68,13 +69,11 @@ class Blockchain:
             forkNode = self.get_forking(oldBlock, block)
             while temp != forkNode: 
                 removed_tx_list.append(temp.currBlock.tx)
-                # self.blockchain.remove(temp)
                 temp = temp.prevBlock
             for tx in removed_tx_list:
-            # remove the output of forked tx from UTXO since no longer be able to spend
+            # remove the output of forked tx from UTXO and add input to UTXO
                 self._reverse_forked_block_UTXO(tx)
             
-            forked_tx_list = []
             temp2 = block
             while temp2 != forkNode:
                 forked_tx_list.append(temp2.currBlock.tx)
@@ -91,7 +90,7 @@ class Blockchain:
             pass
         
         
-        return removed_tx_list
+        return {"removed" : removed_tx_list, "forked": forked_tx_list}
     
 
         
