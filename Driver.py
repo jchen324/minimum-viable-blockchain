@@ -32,18 +32,15 @@ class Driver:
             node.add_broadcasted_block()
             sleep(1)
             for transaction in self.global_unverified_tx:
-                if transaction in node.valid_tx:
+                if transaction in node.alreadyMined or transaction in node.unverified_tx_pool:
                     continue
                 node.unverified_tx_pool.append(transaction)
-            for transaction in node.unverified_tx_pool:
-                mined = node.mine_block(transaction) 
-                # check if the previous block has been added if has then add the block to the blockchain if not try again
-                if(mined == False):
-                    node.mine_block(transaction)
-                else: 
-                    node.valid_tx.append(transaction)
-                if (node.unverified_tx_pool):
-                    node.unverified_tx_pool.remove(transaction)
+            if (node.unverified_tx_pool):
+                tx = node.unverified_tx_pool[0]
+                node.mine_block(tx) 
+                node.alreadyMined.append(tx)
+                node.unverified_tx_pool.remove(tx)
+            
             if len(node.unverified_tx_pool) == 0:
                 sleep(1)
                 if len(node.unverified_tx_pool) == 0:

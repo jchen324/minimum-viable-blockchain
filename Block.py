@@ -32,7 +32,7 @@ class LinkedBlock:
     def generate_genesis_linked_block():
         with open("./transactions/genesis_tx.json") as f:
             dict_obj = json.load(f)
-            # print(dict_obj)
+            
         genesis_tx = Transaction(dict_obj=dict_obj)
         genesis_block = Block(genesis_tx, sha256(b'hello').hexdigest(), "0", sha256(b'world').hexdigest())
         genesis_linked_block = LinkedBlock(None, genesis_block, 1)

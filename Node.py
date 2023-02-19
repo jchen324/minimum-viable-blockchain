@@ -14,15 +14,15 @@ class Node:
         self.blockchain = Blockchain()
         self.block_queue = Queue()
         self.unverified_tx_pool : List[Transaction] = []
-        self.valid_tx : List[Transaction] = []
+        self.alreadyMined : List[Transaction] = []
         self.difficulty = 0x07FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
     # check tx does not already exist on the blockchain
     def _tx_check_not_already_exist(self, tx: Transaction):
-        curr = self.blockchain.last_block()
+        curr = self.blockchain.highest_block
         while curr:
             if tx.tx_number == curr.currBlock.tx.tx_number:
-                print("tx already exists")
+                # print("tx already exists")
                 return False
             curr = curr.prevBlock
         return True
@@ -35,7 +35,7 @@ class Node:
         transaction_data = json.dumps(input_list + output_list)
         transaction_hash = sha256(transaction_data.encode()).hexdigest()
         if transaction_hash != tx.tx_number:
-            print("check 1 failed")
+            # print("check 1 failed")
             return False
         return True
 
@@ -51,7 +51,7 @@ class Node:
             sender_pubkey.verify(signed, encoder=Base64Encoder)
             # print(f"Transaction {target_tx.tx_number} signature is valid")
         except nacl.exceptions.BadSignatureError:
-            print(f"Transaction {tx.tx_number} signature not valid")
+            # print(f"Transaction {tx.tx_number} signature not valid")
             return False
 
         for input in tx.input_list:
@@ -62,29 +62,29 @@ class Node:
 
             # check if each number in the input exists as a transaction already on the blockchain 
             found = False
-            curr = self.blockchain.last_block()
+            curr = self.blockchain.highest_block
             i = 0
             while curr:
-                print(str(i) + ' ' + str(curr.currBlock.tx.tx_number))
+                # print(str(i) + ' ' + str(curr.currBlock.tx.tx_number))
                 if input_number == curr.currBlock.tx.tx_number:
                     found = True
                     break
                 i = i + 1
                 curr = curr.prevBlock
             if (not found):
-                print("tx input does not exist")
+                # print("tx input does not exist")
                 return False
             
             # check if each output in the input actually exists in the named transaction,
             # and that public key is the most recent recipient of that output (i.e. not a double-spend)
             key = sha256((str(input_number) + str(input_output_pubkey) + str(input_output_value)).encode()).hexdigest()
             if (not (key in self.blockchain.UTXO)):
-                print("input's output does not exist in UTXO/ double spending")
+                # print("input's output does not exist in UTXO/ double spending")
                 return False
             
             # check if each output in the input has the same public key
             if first_pubkey != input_output_pubkey:
-                print("diff pubkey for input's outputs")
+                # print("diff pubkey for input's outputs")
                 return False
             
         return True
@@ -99,8 +99,8 @@ class Node:
         for output_tx in tx.output_list:
             output_sum += int(output_tx.value)
         
-        if (input_sum != output_sum): 
-            print("check 3 failed")
+        # if (input_sum != output_sum): 
+        #     print("check 3 failed")
         return (input_sum == output_sum)
 
 
@@ -111,7 +111,7 @@ class Node:
 
     def mine_block(self, tx: Transaction):
         if self.check_valid_tx(tx):
-            prevBlock = self.blockchain.last_block()
+            prevBlock = self.blockchain.highest_block
             prevHashing = prevBlock.currBlock.pow
             nonce = 0 # TODO
             pow = sha256((str(tx.to_dict()) + str(prevHashing) + str(nonce)).encode()).hexdigest()
@@ -124,22 +124,24 @@ class Node:
             self.broadcast_block(newBlock)
             return True
         else:
-            print(f"Mining block: transaction not valid for transaction number {tx.tx_number}")
+            # print(f"Mining block: transaction not valid for transaction number {tx.tx_number}")
             return False
     
     def _verify_block_pow(self, block: Block):
         if int(block.pow, 16) > self.difficulty:
-            print(f"block {block.pow} pow greater than difficulty")
+            # print(f"block {block.pow} pow greater than difficulty")
             return False
         
         if (sha256((str(block.tx.to_dict()) + str(block.prev) + str(block.nonce)).encode()).hexdigest() != block.pow):
-            print(f"block {block.pow} pow doesn't match")
+            # print(f"block {block.pow} pow doesn't match")
             return False
         return True
 
 
     def add_broadcasted_block(self):
+        
         if self.block_queue.empty():
+            
             return
         
         while not self.block_queue.empty():
@@ -153,11 +155,17 @@ class Node:
                     targetBlock = linkedBlock
                     break
             if not targetBlock:
-                print(f"The prev hash of {newBlock.prev} cannot be found on blockchain.")
+                # print(f"The prev hash of {newBlock.prev} cannot be found on blockchain.")
                 continue
                 
             newLinkedBlock = LinkedBlock(targetBlock.currBlock, newBlock, targetBlock.height + 1)
-            self.blockchain.add_block(newLinkedBlock)
+            removed_tx_list = self.blockchain.add_block(newLinkedBlock)
+            # forking occurred
+            if (removed_tx_list):
+                for tx in removed_tx_list:
+                    self.unverified_tx_pool.append(tx)
+                    self.alreadyMined.remove(tx)
+
 
 
     def broadcast_block(self, block: Block):
@@ -168,30 +176,12 @@ class Node:
 
     def output_all_blocks(self):
         res = []
-        curr = self.blockchain.last_block()
+        curr = self.blockchain.highest_block
         while curr:
             res = [curr.currBlock.to_dict()] + res
             curr = curr.prevBlock
         with open(f"outputs/node_output{self.id}.json", "w") as f:
             json.dump(res, f, indent=4)
-
-# node = Node(100)
-# node.output_all_blocks()
-
-
-# def read_tx(filename):
-#     txs = []
-#     with open(f"./transactions/{filename}.json") as f:
-#         txs = json.load(f)
-#     return txs
-        
-# txs = read_tx("Verified_Tx")
-# for tx in txs:
-#     tx_obj = Transaction(dict_obj=tx)
-   
-#     node.mine_block(tx_obj)
-
-# node.output_all_blocks()
 
 
 

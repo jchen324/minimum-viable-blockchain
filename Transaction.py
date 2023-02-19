@@ -56,7 +56,7 @@ class Transaction:
             self.tx_number = "1"
         else: 
             self.tx_number = self.hashed_number()
-            print("1st hash :" + self.tx_number)
+            # print("1st hash :" + self.tx_number)
     
     def _get_transaction(self, dict_obj):
         self.tx_number = dict_obj['number']
