@@ -7,7 +7,6 @@ from typing import List
 class Blockchain:
     def __init__(self):
         genesis = LinkedBlock.generate_genesis_linked_block()
-
         self.blockchain : List[LinkedBlock] = [genesis]
         self.UTXO: Dict[str, transaction_output] = {}
         tx = genesis.currBlock.tx
@@ -25,6 +24,7 @@ class Blockchain:
             key = sha256((str(i.number) + str(o.pubkey) + str(o.value)).encode()).hexdigest()
             self.UTXO.pop(key)
     
+    # ensure all UTXOs are correct after forking
     def _reverse_forked_block_UTXO(self, tx: Transaction):
         for o in tx.output_list:
             key = sha256((str(tx.tx_number) + str(o.pubkey) + str(o.value)).encode()).hexdigest()
@@ -34,9 +34,7 @@ class Blockchain:
             key = sha256((str(i.number) + str(o.pubkey) + str(o.value)).encode()).hexdigest()
             self.UTXO[key] = 1
 
-    def last_block(self):
-        return self.blockchain[-1]
-
+    # return the most recent common block between two blockchains
     def get_forking(self, node1: LinkedBlock, node2: LinkedBlock):
         node_1 = node1
         node_2 = node2
@@ -63,17 +61,23 @@ class Blockchain:
 
         oldBlock = self.highest_block
         self.blockchain.append(block)
+
+        # forking case
         if (block.prevBlock != oldBlock and block.height > oldBlock.height):
             self.highest_block = self.blockchain[-1]
             temp = oldBlock
             forkNode = self.get_forking(oldBlock, block)
+
+            # append all abandoned txs to remove_tx_list
             while temp != forkNode: 
                 removed_tx_list.append(temp.currBlock.tx)
                 temp = temp.prevBlock
+            
+            # remove the output of abandoned tx from UTXO and add input to UTXO
             for tx in removed_tx_list:
-            # remove the output of forked tx from UTXO and add input to UTXO
                 self._reverse_forked_block_UTXO(tx)
             
+            # integrate txs from the new chain to the blockchain
             temp2 = block
             while temp2 != forkNode:
                 forked_tx_list.append(temp2.currBlock.tx)
@@ -82,24 +86,14 @@ class Blockchain:
                 self._add_to_UTXO(tx)
                 self._remove_from_UTXO(tx)
 
+        # normal case 1: blockchain builds on the added block
         elif (block.prevBlock == oldBlock and block.height > oldBlock.height):
             self.highest_block = self.blockchain[-1]
             self._add_to_UTXO(block.currBlock.tx)
             self._remove_from_UTXO(block.currBlock.tx)
+        
+        # normal case 2: blockchain does not build on the added block
         elif (block.height <= oldBlock.height):
             pass
         
-        
         return {"removed" : removed_tx_list, "forked": forked_tx_list}
-    
-
-        
-
-
-
-
-
-
-
-   
-

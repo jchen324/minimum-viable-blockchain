@@ -1,5 +1,3 @@
-from Block import Block
-from Blockchain import Blockchain
 from Node import *
 from Transaction import *
 from threading import Thread
@@ -7,17 +5,15 @@ import random
 from time import *
 from typing import List
 import json
-import time
 
 class Driver:
     def __init__(self):
         self.nodes_list = []
-        # list of dictionaries that can be iterated through
         self.global_unverified_tx : List[Transaction] = []
         self.createThread(8)
         self.readTxfromJson()
 
-    # create the multithread 
+    # create thread for nodes 
     def createThread(self, count):
         for id in range(1, count + 1):
             node : Node = Node(id)
@@ -45,7 +41,6 @@ class Driver:
                 sleep(1)
                 if len(node.unverified_tx_pool) == 0:
                     break
-    
         node.output_all_blocks()
 
     def readTxfromJson(self):

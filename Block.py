@@ -37,6 +37,3 @@ class LinkedBlock:
         genesis_block = Block(genesis_tx, sha256(b'hello').hexdigest(), "0", sha256(b'world').hexdigest())
         genesis_linked_block = LinkedBlock(None, genesis_block, 1)
         return genesis_linked_block
-        
-
-
